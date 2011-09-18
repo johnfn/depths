@@ -1,3 +1,5 @@
+SIZE = 20
+
 all_entities = new Fathom.Entities
 
 class Tile extends Fathom.Entity
@@ -5,6 +7,12 @@ class Tile extends Fathom.Entity
     super
 
     @type = type
+
+  groups : ->
+    if type == 0
+      ["tile", "renderable"]
+    else
+      ["tile", "renderable", "wall"]
 
   render: (context) ->
     if @type == 0
@@ -14,19 +22,24 @@ class Tile extends Fathom.Entity
 
     context.fillRect @x, @y, @size, @size
 
-SIZE = 20
+###
+class Character extends Fathom.Entity
+  constructor : (x, y) ->
+    super (x, y, SIZE)
+
+  render: (context) ->
+###
 
 for x in [0..10]
   for y in [0..10]
     type = if y == 9 then 1 else 0
-    console.log type
-    all_entities.add new Tile(x * SIZE, y * SIZE, SIZE, type), ["tile"]
+    all_entities.add new Tile(x * SIZE, y * SIZE, SIZE, type)
 
 gameLoop = (context) ->
-  tiles = (all_entities.get ["tile"])
+  visible = all_entities.get ["renderable"]
 
-  for tile in tiles
-    tile.render(context)
+  for item in visible
+    item.render context
 
 # MOVETO FATHOM
 whenReady = (callback) ->
