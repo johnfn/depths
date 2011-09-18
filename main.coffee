@@ -30,7 +30,6 @@ class Map extends Fathom.Entity
       all_entities.add tile
       tile
     @tiles = ((addTile(a, b) for b in [0...y]) for a in [0...x])
-    console.log @tiles, x, y
 
   render : (context) ->
 
