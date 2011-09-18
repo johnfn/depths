@@ -9,7 +9,7 @@ class Tile extends Fathom.Entity
     @type = type
 
   groups : ->
-    if type == 0
+    if @type == 0
       ["tile", "renderable"]
     else
       ["tile", "renderable", "wall"]
@@ -21,6 +21,18 @@ class Tile extends Fathom.Entity
       context.fillStyle = "#ff0"
 
     context.fillRect @x, @y, @size, @size
+
+class Map extends Fathom.Entity
+  constructor : (x, y, TileClass = null) ->
+    addTile = (x, y) ->
+      type = if y == 8 then 1 else 0
+      tile = new TileClass(x * SIZE, y * SIZE, SIZE, type)
+      all_entities.add tile
+      tile
+    @tiles = ((addTile(a, b) for b in [0...y]) for a in [0...x])
+    console.log @tiles, x, y
+
+  render : (context) ->
 
 class Character extends Fathom.Entity
   constructor : (x, y) ->
@@ -51,10 +63,7 @@ class Character extends Fathom.Entity
 
 all_entities.add new Character(50, 50)
 
-for x in [0..10]
-  for y in [0..10]
-    type = if y == 9 then 1 else 0
-    all_entities.add new Tile(x * SIZE, y * SIZE, SIZE, type)
+map = new Map(10, 10, Tile)
 
 gameLoop = (context) ->
   all_entities.update all_entities
