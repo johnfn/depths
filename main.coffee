@@ -52,12 +52,6 @@ gameLoop = (context) ->
   all_entities.render context
 
 # MOVETO FATHOM
-whenReady = (callback) ->
-  """A weak approximation of onReady from jQuery. All we care about to start up
-  Fathom is that document.body exists, which may not immediately be true."""
-  if document.body then callback() else setTimeout (() -> whenReady callback), 250
-
-# MOVETO FATHOM
 fixedInterval = (fn, fps) ->
   """This implementation is not complete."""
   setInterval fn, 1000/fps
@@ -72,5 +66,4 @@ initialize = (size) ->
 
   fixedInterval (() -> (gameLoop context)), 20
 
-# MOVETO FATHOM
-whenReady () -> initialize(500)
+Fathom.ready -> initialize(500)
