@@ -1,3 +1,12 @@
+all_entities = new Entities
+
+ent = "entity" : "yep"
+all_entities.add ent, ["stuffs"]
+console.log ent
+console.log(all_entities.get ["stuffs"])
+all_entities.removeEntity ent
+console.log(all_entities.get ["stuffs"])
+
 gameLoop = () ->
   console.log "Sup"
 
