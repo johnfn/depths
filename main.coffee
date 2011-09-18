@@ -38,11 +38,10 @@ class Character extends Fathom.Entity
   constructor : (x, y) ->
     super x, y, SIZE
 
-    @vx = 0
-    @vy = 0
+    @vx = @vy = 0
 
-    @on "pre-update", ->
-      @vy = 5
+    @on "pre-update", Fathom.BasicControls.RPGLike
+    @on "post-update", () -> @vx = @vy = 0
 
   groups : ->
     ["renderable", "updateable"]
@@ -69,19 +68,4 @@ gameLoop = (context) ->
   all_entities.update all_entities
   all_entities.render context
 
-# MOVETO FATHOM
-fixedInterval = (fn, fps) ->
-  """This implementation is not complete."""
-  setInterval fn, 1000/fps
-
-# MOVETO FATHOM
-initialize = (size) ->
-  canv = document.createElement "canvas"
-  canv.width = canv.height = size
-  document.body.appendChild(canv)
-
-  context = canv.getContext('2d')
-
-  fixedInterval (() -> (gameLoop context)), 20
-
-Fathom.ready -> initialize(500)
+Fathom.initialize gameLoop
