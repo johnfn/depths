@@ -1,15 +1,26 @@
 all_entities = new Fathom.Entities
 
 class Tile extends Fathom.Entity
-  constructor : (x, y, size) ->
+  constructor : (x, y, size, type) ->
     super
 
-  render: (context) ->
-    context.strokeStyle = "black"
-    context.fillRect @x, @y, @size, @size
-    console.log @x, @y, @size
+    @type = type
 
-all_entities.add new Tile(50, 50, 20), ["tile"]
+  render: (context) ->
+    if @type == 0
+      context.fillStyle = "#f00"
+    else if @type == 1
+      context.fillStyle = "#ff0"
+
+    context.fillRect @x, @y, @size, @size
+
+SIZE = 20
+
+for x in [0..10]
+  for y in [0..10]
+    type = if y == 9 then 1 else 0
+    console.log type
+    all_entities.add new Tile(x * SIZE, y * SIZE, SIZE, type), ["tile"]
 
 gameLoop = (context) ->
   tiles = (all_entities.get ["tile"])
