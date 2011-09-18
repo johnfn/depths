@@ -23,10 +23,10 @@ class Tile extends Fathom.Entity
     context.fillRect @x, @y, @size, @size
 
 class Map extends Fathom.Entity
-  constructor : (x, y, TileClass = null) ->
+  constructor : (x, y, tileClass = null) ->
     addTile = (x, y) ->
       type = if y == 8 then 1 else 0
-      tile = new TileClass(x * SIZE, y * SIZE, SIZE, type)
+      tile = new tileClass(x * SIZE, y * SIZE, SIZE, type)
       all_entities.add tile
       tile
     @tiles = ((addTile(a, b) for b in [0...y]) for a in [0...x])
