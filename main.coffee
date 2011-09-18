@@ -22,13 +22,26 @@ class Tile extends Fathom.Entity
 
     context.fillRect @x, @y, @size, @size
 
-###
 class Character extends Fathom.Entity
   constructor : (x, y) ->
-    super (x, y, SIZE)
+    super x, y, SIZE
+
+    @on "pre-render", ->
+      @x += 1
+
+  groups : ->
+    ["renderable", "updateable"]
 
   render: (context) ->
-###
+    context.fillStyle = "#0f0"
+    context.fillRect @x, @y, @size, @size
+
+  update: (entities) ->
+    console.log "updatin"
+  
+  depth : -> 1
+
+all_entities.add new Character(50, 50)
 
 for x in [0..10]
   for y in [0..10]
@@ -36,10 +49,7 @@ for x in [0..10]
     all_entities.add new Tile(x * SIZE, y * SIZE, SIZE, type)
 
 gameLoop = (context) ->
-  visible = all_entities.get ["renderable"]
-
-  for item in visible
-    item.render context
+  all_entities.render context
 
 # MOVETO FATHOM
 whenReady = (callback) ->
