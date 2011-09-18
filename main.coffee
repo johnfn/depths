@@ -1,7 +1,8 @@
 all_entities = new Entities
 
-gameLoop = () ->
-  console.log "Sup"
+gameLoop = (context) ->
+  context.strokeStyle = "black"
+  context.fillRect 20, 20, 16, 16
 
 # MOVETO FATHOM
 whenReady = (callback) ->
@@ -20,7 +21,9 @@ initialize = (size) ->
   canv.width = canv.height = size
   document.body.appendChild(canv)
 
-  fixedInterval gameLoop, 20
+  context = canv.getContext('2d')
+
+  fixedInterval (() -> (gameLoop context)), 20
 
 
 # MOVETO FATHOM
