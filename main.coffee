@@ -1,8 +1,21 @@
-all_entities = new Entities
+all_entities = new Fathom.Entities
+
+class Tile extends Fathom.Entity
+  constructor : (x, y, size) ->
+    super
+
+  render: (context) ->
+    context.strokeStyle = "black"
+    context.fillRect @x, @y, @size, @size
+    console.log @x, @y, @size
+
+all_entities.add new Tile(50, 50, 20), ["tile"]
 
 gameLoop = (context) ->
-  context.strokeStyle = "black"
-  context.fillRect 20, 20, 16, 16
+  tiles = (all_entities.get ["tile"])
+
+  for tile in tiles
+    tile.render(context)
 
 # MOVETO FATHOM
 whenReady = (callback) ->
@@ -24,7 +37,6 @@ initialize = (size) ->
   context = canv.getContext('2d')
 
   fixedInterval (() -> (gameLoop context)), 20
-
 
 # MOVETO FATHOM
 whenReady () -> initialize(500)
