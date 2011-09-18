@@ -26,8 +26,11 @@ class Character extends Fathom.Entity
   constructor : (x, y) ->
     super x, y, SIZE
 
-    @on "pre-render", ->
-      @x += 1
+    @vx = 0
+    @vy = 0
+
+    @on "pre-update", ->
+      @vy = 5
 
   groups : ->
     ["renderable", "updateable"]
@@ -37,7 +40,12 @@ class Character extends Fathom.Entity
     context.fillRect @x, @y, @size, @size
 
   update: (entities) ->
-    console.log "updatin"
+    @x += @vx
+    @y += @vy
+
+    if entities.any ["wall", ((other) => @touchingEntity other)]
+      @x -= @vx
+      @y -= @vy
   
   depth : -> 1
 
@@ -49,6 +57,7 @@ for x in [0..10]
     all_entities.add new Tile(x * SIZE, y * SIZE, SIZE, type)
 
 gameLoop = (context) ->
+  all_entities.update all_entities
   all_entities.render context
 
 # MOVETO FATHOM
