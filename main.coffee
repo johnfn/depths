@@ -58,7 +58,22 @@ class Character extends Fathom.Entity
 
   depth : -> 1
 
+class Text extends Fathom.Entity
+  constructor : (@text, x=0, y=0, opts={}) ->
+    super x, y
+    @font     = opts.font     || "16px Courier New"
+    @color    = opts.color    || "#000000"
+    @baseline = opts.baseline || "top"
+  groups : -> ["renderable"]
+  render : (context) ->
+    context.fillStyle    = @color
+    context.font         = @font
+    context.textBaseline = @baseline
+    context.fillText @text, @x, @y
+  depth : -> 2
+
 all_entities.add new Character(50, 50)
+all_entities.add new Text("Hello world!", 50, 0)
 
 map = new Map(10, 10, Tile)
 
