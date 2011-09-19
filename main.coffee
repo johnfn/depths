@@ -52,12 +52,12 @@ class Character extends Fathom.Entity
     Fathom.BasicHooks.platformerLike 5, this, entities
 
     @x += @vx
-    if entities.any ["wall", ((other) => @touchingEntity other)]
+    if entities.any ["wall", ((other) => @touchingRect other)]
       @x -= @vx
       @vx = 0
 
     @y += @vy
-    if entities.any ["wall", ((other) => @touchingEntity other)]
+    if entities.any ["wall", ((other) => @touchingRect other)]
       @y -= @vy
       @vy = 0
 
