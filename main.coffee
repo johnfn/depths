@@ -39,8 +39,8 @@ class Character extends Fathom.Entity
 
     @vx = @vy = 0
 
-    @on "pre-update", Fathom.BasicControls.RPGLike
-    @on "post-update", () -> @vx = @vy = 0
+    @on "pre-update", Fathom.BasicControls.RPGLike 5, this
+    @on "post-update", -> @vx = @vy = 0
 
   groups : ->
     ["renderable", "updateable"]
