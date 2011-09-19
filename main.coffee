@@ -39,8 +39,7 @@ class Character extends Fathom.Entity
 
     @vx = @vy = 0
 
-    @on "pre-update", Fathom.BasicControls.RPGLike 5, this
-    @on "post-update", -> @vx = @vy = 0
+    @on "post-update", Fathom.BasicHooks.decel this
 
   groups : ->
     ["renderable", "updateable"]
@@ -50,11 +49,17 @@ class Character extends Fathom.Entity
     context.fillRect @x, @y, @size, @size
 
   update: (entities) ->
+    Fathom.BasicHooks.platformerLike 5, this, entities
+
     @x += @vx
-    @x -= @vx if entities.any ["wall", ((other) => @touchingEntity other)]
+    if entities.any ["wall", ((other) => @touchingEntity other)]
+      @x -= @vx
+      @vx = 0
 
     @y += @vy
-    @y -= @vy if entities.any ["wall", ((other) => @touchingEntity other)]
+    if entities.any ["wall", ((other) => @touchingEntity other)]
+      @y -= @vy
+      @vy = 0
 
   depth : -> 1
 
