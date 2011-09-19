@@ -51,12 +51,11 @@ class Character extends Fathom.Entity
 
   update: (entities) ->
     @x += @vx
-    @y += @vy
+    @x -= @vx if entities.any ["wall", ((other) => @touchingEntity other)]
 
-    if entities.any ["wall", ((other) => @touchingEntity other)]
-      @x -= @vx
-      @y -= @vy
-  
+    @y += @vy
+    @y -= @vy if entities.any ["wall", ((other) => @touchingEntity other)]
+
   depth : -> 1
 
 all_entities.add new Character(50, 50)
